@@ -5,7 +5,6 @@
  * @copyright Copyright (c) [[COPYRIGHT_YEAR]] [[COPYRIGHT_HOLDER]]
  * @license   [[LICENSE_URL]] ([[LICENSE]])
  *------------------------------------------------------------- *)
-{---put your routes registration here---}
-{ router.get('/', THomeControllerFactory.create()); }
-{$INCLUDE Home/routes.inc}
-{$INCLUDE Auth/routes.inc}
+
+router.get('/', container['homeController'] as IRequestHandler)
+    .add(container['bearerAuth'] as IMiddleware);

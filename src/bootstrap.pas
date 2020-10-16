@@ -17,6 +17,8 @@ type
 
     TAppServiceProvider = class(TDaemonAppServiceProvider)
     protected
+        function buildAppConfig(const ctnr : IDependencyContainer) : IAppConfiguration; override;
+
         function buildDispatcher(
             const container : IDependencyContainer;
             const routeMatcher : IRouteMatcher;
@@ -43,8 +45,20 @@ uses
     (*! -------------------------------
      *   controllers factory
      *----------------------------------- *)
-    {---- put your controller factory here ---};
+    {---- put your controller factory here ---},
+    HomeControllerFactory,
+    AuthControllerFactory;
 
+    function TAppServiceProvider.buildAppConfig(const ctnr : IDependencyContainer) : IAppConfiguration;
+    begin
+        ctnr.add(
+            'config',
+            TJsonFileConfigFactory.create(
+                getCurrentDir() + '/config/config.json'
+            )
+        );
+        result := ctnr['config'] as IAppConfiguration;
+    end;
 
     function TAppServiceProvider.buildDispatcher(
         const container : IDependencyContainer;

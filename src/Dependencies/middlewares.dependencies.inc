@@ -9,3 +9,10 @@
 {%dependencies.inc}
 
 {---put your middleware-related dependencies registration here---}
+
+container.add(
+    'bearerAuth',
+    TBearerAuthMiddlewareFactory.create()
+        .verifier(container['jwtVerifier'] as ITokenVerifier)
+        .credentialKey((container['config'] as IAppConfiguration).getString('credentialKey'))
+);

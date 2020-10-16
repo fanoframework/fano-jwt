@@ -1,0 +1,21 @@
+{
+    "appName" : "MyApp",
+    "baseUrl" : "http://jwt.fano",
+    "secretKey" : "your very hush hush secret key",
+    "db" : {
+        "mysql" : {
+            "version" : "mysql 5.7",
+            "host" : "localhost",
+            "port" : 3306,
+            "username" : "[YOUR USER NAME]",
+            "password" : "[YOUR PASSWORD]",
+            "database" : "[name of database to open]"
+        }
+    },
+
+    "jwt": {
+        "issuer" : "fano"
+    },
+    "credentialKey" : "jwt_user"
+
+}
