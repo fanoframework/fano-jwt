@@ -60,7 +60,7 @@ $ fanocli --key
 
 ### Setup Authorization header in Apache
 By default, Apache will not pass `Authorization` header to our reverse-proxied application.
-Edit `/etc/apache2/sites-available/jwt.fano.conf` (if in Debian-based dsitrubution) and add
+Edit `/etc/apache2/sites-available/jwt.fano.conf` (if in Debian-based Linux) and add
 following line inside `VirtualHost` tag.
 ```
 <IfModule mod_rewrite.c>
