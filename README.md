@@ -29,14 +29,26 @@ $ sudo fanocli --deploy-scgi=jwt.fano
 ### Setup database
 
 Run data seeder utility to setup users table and seed its data. It will
-create a database and a user, for example username `fano_jwt@localhost` with password `f4n0_Jwt`
+create a database and a user, for example username `fano_jwt` with password `f4n0_Jwt`
 and database name `fano_jwt` and setup table. Type MySQL `root` password when you are asked.
 
 ```
 $ DB_ADMIN=root DB_USER=fano_jwt DB_PASSW=f4n0_Jwt ./tools/data.seeder.sh
 ```
 Put database username, password and database name in `config/config.json`.
+```
+    "db" : {
+        "mysql" : {
+            "version" : "mysql 5.7",
+            "host" : "localhost",
+            "port" : 3306,
+            "username" : "fano_jwt",
+            "password" : "f4n0_Jwt",
+            "database" : "fano_jwt"
+        }
+    },
 
+```
 ### Create secret key
 
 Edit `secretKey` key in `config/config.json` with your secret key. To generate random
