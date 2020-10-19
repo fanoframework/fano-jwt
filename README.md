@@ -21,7 +21,7 @@ command line tools to help scaffolding web application using Fano Framework.
 Make sure all requirements are met. Run
 ```
 $ git clone https://github.com/fanoframework/fano-jwt.git --recursive
-$ cd fano-app
+$ cd fano-jwt
 $ ./tools/config.setup.sh
 $ ./build.sh
 $ sudo fanocli --deploy-scgi=jwt.fano
