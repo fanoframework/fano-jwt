@@ -1,6 +1,6 @@
-# SCGI Fano Web Framework Skeleton Application
+# Fano JWT
 
-[SCGI](https://python.ca/scgi/protocol.txt) web application skeleton using Fano Framework, Pascal web application framework
+This project demonstrates how to use JSON Web Token (JWT) signing and verification with Fano Framework.
 
 This project is generated using [Fano CLI](https://github.com/fanoframework/fano-cli)
 command line tools to help scaffolding web application using Fano Framework.
@@ -12,6 +12,7 @@ command line tools to help scaffolding web application using Fano Framework.
 - Web Server ([Apache with mod_proxy_scgi](https://httpd.apache.org/docs/current/mod/mod_proxy_scgi.html), nginx)
 - [Fano CLI](https://github.com/fanoframework/fano-cli)
 - Web Server (Apache, nginx)
+- MySQL 5.7
 - Administrative privilege for setting up virtual host
 
 ## Installation
@@ -19,14 +20,71 @@ command line tools to help scaffolding web application using Fano Framework.
 ### TLDR
 Make sure all requirements are met. Run
 ```
-$ git clone https://your-repo-hostname/fano-app.git --recursive
+$ git clone https://github.com/fanoframework/fano-jwt.git --recursive
 $ cd fano-app
 $ ./tools/config.setup.sh
 $ ./build.sh
-$ sudo fanocli --deploy-scgi=fano-app.fano
+$ sudo fanocli --deploy-scgi=jwt.fano
+```
+### Setup database
+
+Run data seeder utility to setup users table and seed its data. It will
+create a database and a user, for example username `fano_jwt@localhost` with password `f4n0_Jwt`
+and database name `fano_jwt` and setup table. Type MySQL `root` password when you are asked.
+
+```
+$ DB_ADMIN=root DB_USER=fano_jwt DB_PASSW=f4n0_Jwt ./tools/data.seeder.sh
+```
+Put database username, password and database name in `config/config.json`.
+
+### Create secret key
+
+Edit 'secretKey` key in `config/config.json` with your secret key. To generate random
+key, you can use Fano CLI.
+
+```
+$ fanocli --key
+```
+
+### Setup Authorization header in Apache
+By default, Apache will not pass `Authorization` header to our reverse-proxied application.
+Edit `/etc/apache2/sites-available/jwt.fano.conf` (if in Debian-based dsitrubution) and add
+following line inside `VirtualHost` tag.
+```
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
+</IfModule>
+```
+
+Reload Apache so that configuration is read.
+
+```
+$ systemctl reload apache2
+```
+### Run application
+
+```
 $ ./bin/app.cgi
 ```
-Open internet browser and go to `http://fano-app.fano`. You should see application.
+
+Open HTTP client, for example Postman or curl, and go to `http://jwt.fano`. Without `Authorization` header you should see application rejects with HTTP error 401.
+
+Authenticate using curl to get token.
+
+```
+$ curl -XPOST -d "user=joko@widowo.com&passw=joko@widowo.com" http://jwt.fano/auth
+```
+It will returns
+```
+{"status":"OK","token" : "very_long_jwt_token"}
+```
+After that, use token to get access
+
+```
+$ curl -H "Authorization: Bearer {replace_with_token}" http://jwt.fano
+```
+If token is verified, you should see "Hello joko@widowo.com"
 
 ### Free Pascal installation
 
