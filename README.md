@@ -39,7 +39,7 @@ Put database username, password and database name in `config/config.json`.
 
 ### Create secret key
 
-Edit 'secretKey` key in `config/config.json` with your secret key. To generate random
+Edit `secretKey` key in `config/config.json` with your secret key. To generate random
 key, you can use Fano CLI.
 
 ```
