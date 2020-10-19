@@ -8,8 +8,7 @@
 
 {%dependencies.inc}
 
-{---put your middleware-related dependencies registration here---}
-
+//setup Http Bearer authentication middleware with JWT
 container.add(
     'bearerAuth',
     TBearerAuthMiddlewareFactory.create()

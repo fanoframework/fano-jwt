@@ -8,6 +8,7 @@
 
 {---put your main dependencies registration here---}
 
+//setup MySQL database utility
 container.add('db', TMySqlDbFactory.create(
     (container['config'] as IAppConfiguration).getString('db.mysql.version'),
     (container['config'] as IAppConfiguration).getString('db.mysql.host'),
@@ -17,6 +18,7 @@ container.add('db', TMySqlDbFactory.create(
     (container['config'] as IAppConfiguration).getInt('db.mysql.port')
 ));
 
+//setup Argon2i password hash verification
 container.add(
     'passwHash',
     TArgon2iPasswordHashFactory.create()
@@ -26,6 +28,7 @@ container.add(
         .len(16)
 );
 
+//setup authenticator which load user name and password hash from MySQL
 container.add(
     'auth',
     TDbPasswHashAuthFactory.create()
@@ -37,6 +40,7 @@ container.add(
         .passwSaltColumn('salt')
 );
 
+//setup JWT token verifier
 container.add(
     'jwtVerifier',
     TJwtTokenVerifierFactory.create()
@@ -45,6 +49,7 @@ container.add(
 );
 
 
+//setup JWT token generation and signing with HMAC SHA256
 container.add(
     'jwtGenerator',
     TJwtTokenGeneratorFactory.create()

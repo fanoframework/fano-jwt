@@ -32,7 +32,7 @@ type
         fTokenGenerator : ITokenGenerator;
         fIssuer : string;
 
-        function handleAuthorizedRequest(
+        function handleAuthenticatedRequest(
             const response : IResponse;
             const username : string
         ) : IResponse;
@@ -67,7 +67,7 @@ uses
         fIssuer := issuer;
     end;
 
-    function TAuthController.handleAuthorizedRequest(
+    function TAuthController.handleAuthenticatedRequest(
         const response : IResponse;
         const username : string
     ) : IResponse;
@@ -101,10 +101,10 @@ uses
         cred.password := request.getParsedBodyParam('passw');
         if fAuth.auth(cred) then
         begin
-            result := handleAuthorizedRequest(response, cred.username);
+            result := handleAuthenticatedRequest(response, cred.username);
         end else
         begin
-            raise EForbidden.create('You are not authorized.');
+            raise EForbidden.create('You are not authenticated.');
         end;
     end;
 
