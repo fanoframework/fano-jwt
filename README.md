@@ -1,6 +1,6 @@
 # Fano JWT
 
-This example project demonstrates how to use JSON Web Token (JWT) signing and verification with Fano Framework.
+This example project demonstrates how to use [JSON Web Token (JWT) signing and verification](https://fanoframework.github.io/security/jwt/) with Fano Framework.
 
 This project is generated using [Fano CLI](https://github.com/fanoframework/fano-cli)
 command line tools to help scaffolding web application using Fano Framework.
