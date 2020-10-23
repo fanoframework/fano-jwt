@@ -72,7 +72,7 @@ following line inside `VirtualHost` tag.
 Reload Apache so that configuration is read.
 
 ```
-$ systemctl reload apache2
+$ sudo systemctl reload apache2
 ```
 ### Run application
 
