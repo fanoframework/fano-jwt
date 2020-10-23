@@ -49,6 +49,8 @@ Put database username, password and database name in `config/config.json`.
     },
 
 ```
+You will require to change password hash in `users` table if you change `argon2i` configuration value in `config/config.json`. To generate password hash, you can use Argon2i online tools such as [Argon2 Online](https://argon2.online).
+
 ### Create secret key
 
 Edit `secretKey` key in `config/config.json` with your secret key. To generate random
@@ -57,7 +59,6 @@ key, you can use Fano CLI.
 ```
 $ fanocli --key
 ```
-
 ### Setup Authorization header in Apache
 By default, Apache will not pass `Authorization` header to our reverse-proxied application.
 Edit `/etc/apache2/sites-available/jwt.fano.conf` (if in Debian-based Linux) and add
