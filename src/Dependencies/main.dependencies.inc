@@ -10,22 +10,22 @@
 
 //setup MySQL database utility
 container.add('db', TMySqlDbFactory.create(
-    (container['config'] as IAppConfiguration).getString('db.mysql.version'),
-    (container['config'] as IAppConfiguration).getString('db.mysql.host'),
-    (container['config'] as IAppConfiguration).getString('db.mysql.database'),
-    (container['config'] as IAppConfiguration).getString('db.mysql.username'),
-    (container['config'] as IAppConfiguration).getString('db.mysql.password'),
-    (container['config'] as IAppConfiguration).getInt('db.mysql.port')
+    config.getString('db.mysql.version'),
+    config.getString('db.mysql.host'),
+    config.getString('db.mysql.database'),
+    config.getString('db.mysql.username'),
+    config.getString('db.mysql.password'),
+    config.getInt('db.mysql.port')
 ));
 
 //setup Argon2i password hash verification
 container.add(
     'passwHash',
     TArgon2iPasswordHashFactory.create()
-        .cost(2)
-        .memory(16)
-        .paralleism(1)
-        .len(16)
+        .cost(config.getInt('passwHash.argon2i.iteration'))
+        .memory(config.getInt('passwHash.argon2i.memory'))
+        .paralleism(config.getInt('passwHash.argon2i.parallel'))
+        .len(config.getInt('passwHash.argon2i.hashLen'))
 );
 
 //setup authenticator which load user name and password hash from MySQL
@@ -44,8 +44,8 @@ container.add(
 container.add(
     'jwtVerifier',
     TJwtTokenVerifierFactory.create()
-        .secret((container['config'] as IAppConfiguration).getString('secretKey'))
-        .issuer((container['config'] as IAppConfiguration).getString('jwt.issuer'))
+        .secret(config.getString('secretKey'))
+        .issuer(config.getString('jwt.issuer'))
 );
 
 
@@ -53,6 +53,6 @@ container.add(
 container.add(
     'jwtGenerator',
     TJwtTokenGeneratorFactory.create()
-        .secret((container['config'] as IAppConfiguration).getString('secretKey'))
+        .secret(config.getString('secretKey'))
         .algorithm(THmacSha256JwtAlg.create())
 );

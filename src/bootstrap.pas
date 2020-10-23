@@ -80,7 +80,9 @@ uses
     end;
 
     procedure TAppServiceProvider.register(const container : IDependencyContainer);
+    var config : IAppConfiguration;
     begin
+        config := container['config'] as IAppConfiguration;
         {$INCLUDE Dependencies/dependencies.inc}
     end;
 

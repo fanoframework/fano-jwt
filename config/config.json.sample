@@ -12,6 +12,15 @@
             "database" : "[name of database to open]"
         }
     },
+    
+    "passwHash" : {
+        "argon2i" : {
+            "iteration" : 2,
+            "parallel" : 1,
+            "memory" : 16,
+            "hashLen" : 16
+        }
+    },
 
     "jwt": {
         "issuer" : "fano"
